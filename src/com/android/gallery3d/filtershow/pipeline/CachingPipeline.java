@@ -74,6 +74,18 @@ public class CachingPipeline implements PipelineInterface {
         return sRS;
     }
 
+    public FiltersManager getmFiltersManager() {
+        return mFiltersManager;
+    }
+
+    public Bitmap getmOriginalBitmap() {
+        return mOriginalBitmap;
+    }
+
+    public Bitmap getmResizedOriginalBitmap() {
+        return mResizedOriginalBitmap;
+    }
+
     public static synchronized void createRenderscriptContext(Context context) {
         if (sRS != null) {
             Log.w(LOGTAG, "A prior RS context exists when calling setRenderScriptContext");

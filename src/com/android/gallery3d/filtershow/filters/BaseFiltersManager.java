@@ -24,6 +24,8 @@ import android.util.Log;
 import com.android.gallery3d.R;
 import com.android.gallery3d.filtershow.pipeline.ImagePreset;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -104,6 +106,23 @@ public abstract class BaseFiltersManager implements FiltersManagerInterface {
             ImageFilter filter = mFilters.get(c);
             if (!usedFilters.contains(filter)) {
                 filter.freeResources();
+            }
+        }
+    }
+
+    public void freeFiltersBitmap() {
+        for (Class c : mFilters.keySet()) {
+            ImageFilter filter = mFilters.get(c);
+            if (filter != null && filter instanceof ImageFilterBorder) {
+                HashMap<Integer, Drawable> mDrawables = ((ImageFilterBorder) filter).getDrawables();
+                for (int d : mDrawables.keySet()) {
+                    Drawable drawable = mDrawables.get(d);
+                    if (drawable != null && drawable instanceof BitmapDrawable) {
+                        if (((BitmapDrawable) drawable).getBitmap() != null) {
+                            ((BitmapDrawable) drawable).getBitmap().recycle();
+                        }
+                    }
+                }
             }
         }
     }

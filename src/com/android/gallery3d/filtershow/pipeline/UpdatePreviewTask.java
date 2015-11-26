@@ -37,6 +37,10 @@ public class UpdatePreviewTask extends ProcessingTask {
         mPipelineIsOn = true;
     }
 
+    public CachingPipeline getPreviewPipeline() {
+        return mPreviewPipeline;
+    }
+
     public void updatePreview() {
         if (!mPipelineIsOn) {
             return;

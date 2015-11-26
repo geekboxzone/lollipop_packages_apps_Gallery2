@@ -912,6 +912,25 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
         }
         mUserPresetsManager.close();
         doUnbindService();
+        if (null != mMasterImage){
+            mMasterImage.recycle();
+        }
+        if (mActions != null && mActions.size() > 0) {
+            for (Action a:mActions) {
+                if (a.getPortraitImage() != null) {
+                    a.getPortraitImage().recycle();
+                }
+                if (a.getOverlayBitmap() != null) {
+                    a.getOverlayBitmap().recycle();
+                }
+                if (a.getImage() != null) {
+                    a.getImage().recycle();
+                }
+            }
+        }
+        if (mCurrentEditor.getTopLevelView() != null) {
+            mCurrentEditor.getTopLevelView().destroyDrawingCache();
+        }
         super.onDestroy();
     }
 

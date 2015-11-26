@@ -408,6 +408,49 @@ public class MasterImage implements RenderingRequestCaller {
         mPreviousImage = null;
     }
 
+    public void recycle(){
+        if (null != mOriginalBitmapSmall){
+            mOriginalBitmapSmall.recycle();
+            mOriginalBitmapSmall = null;
+        }
+        if (null != mOriginalBitmapLarge){
+            mOriginalBitmapLarge.recycle();
+            mOriginalBitmapLarge = null;
+        }
+        if (null != mOriginalBitmapHighres){
+            mOriginalBitmapHighres.recycle();
+            mOriginalBitmapHighres = null;
+        }
+        if (null != mTemporaryThumbnail){
+            mTemporaryThumbnail.recycle();
+            mTemporaryThumbnail = null;
+        }
+        if (null != mFiltersOnlyBitmap){
+            mFiltersOnlyBitmap.recycle();
+            mFiltersOnlyBitmap = null;
+        }
+        if (null != mGeometryOnlyBitmap) {
+            mGeometryOnlyBitmap.recycle();
+            mGeometryOnlyBitmap = null;
+        }
+        if (null != mPartialBitmap){
+            mPartialBitmap.recycle();
+            mPartialBitmap = null;
+        }
+        if (null != mHighresBitmap) {
+            mHighresBitmap.recycle();
+            mHighresBitmap = null;
+        }
+        if (null != mPreviousImage){
+            mPreviousImage.recycle();
+            mPreviousImage = null;
+        }
+        if (null != mPreviewBuffer) {
+            mPreviewBuffer.getProducer().getBitmap().recycle();
+            mPreviewBuffer = null;
+        }
+    }
+
     public void onNewLook(FilterRepresentation newRepresentation) {
         if (getFilteredImage() == null) {
             return;
