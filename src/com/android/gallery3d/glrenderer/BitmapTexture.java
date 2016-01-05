@@ -40,9 +40,7 @@ public class BitmapTexture extends UploadedTexture {
 
     @Override
     protected void onFreeBitmap(Bitmap bitmap) {
-        if (!bitmap.isRecycled()) {
-            bitmap.recycle();
-        }
+        // Do nothing.
     }
 
     @Override
@@ -56,9 +54,6 @@ public class BitmapTexture extends UploadedTexture {
 
     @Override
     public void recycle() {
-        if (!mContentBitmap.isRecycled()) {
-            mContentBitmap.recycle();
-        }
         super.recycle();
     }
 }

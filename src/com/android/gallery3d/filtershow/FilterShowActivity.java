@@ -928,7 +928,7 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
                 }
             }
         }
-        if (mCurrentEditor.getTopLevelView() != null) {
+        if (mCurrentEditor != null && mCurrentEditor.getTopLevelView() != null) {
             mCurrentEditor.getTopLevelView().destroyDrawingCache();
         }
         super.onDestroy();
