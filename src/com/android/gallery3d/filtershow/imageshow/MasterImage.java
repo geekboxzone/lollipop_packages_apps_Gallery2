@@ -25,6 +25,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.util.Log;
 
 import com.android.gallery3d.exif.ExifTag;
 import com.android.gallery3d.filtershow.FilterShowActivity;
@@ -330,10 +331,14 @@ public class MasterImage implements RenderingRequestCaller {
     }
 
     public Bitmap getFilteredImage() {
-        mPreviewBuffer.swapConsumerIfNeeded(); // get latest bitmap
-        Buffer consumer = mPreviewBuffer.getConsumer();
-        if (consumer != null) {
-            return consumer.getBitmap();
+        try {
+            mPreviewBuffer.swapConsumerIfNeeded(); // get latest bitmap
+            Buffer consumer = mPreviewBuffer.getConsumer();
+            if (consumer != null) {
+                return consumer.getBitmap();
+            }
+        }catch (NullPointerException e){
+            Log.e(LOGTAG,"error happen: getfiltered null");
         }
         return null;
     }
@@ -446,7 +451,11 @@ public class MasterImage implements RenderingRequestCaller {
             mPreviousImage = null;
         }
         if (null != mPreviewBuffer) {
-            mPreviewBuffer.getProducer().getBitmap().recycle();
+            try {
+                mPreviewBuffer.getProducer().getBitmap().recycle();
+            }catch (NullPointerException e){
+
+            }
             mPreviewBuffer = null;
         }
     }
@@ -586,14 +595,17 @@ public class MasterImage implements RenderingRequestCaller {
         if (mPreset == null) {
             return;
         }
-
-        mPreviewPreset.enqueuePreset(mPreset);
-        mPreviewBuffer.invalidate();
-        invalidatePartialPreview();
-        invalidateHighresPreview();
-        needsUpdatePartialPreview();
-        needsUpdateHighResPreview();
-        mActivity.getProcessingService().updatePreviewBuffer();
+        try {
+            mPreviewPreset.enqueuePreset(mPreset);
+            mPreviewBuffer.invalidate();
+            invalidatePartialPreview();
+            invalidateHighresPreview();
+            needsUpdatePartialPreview();
+            needsUpdateHighResPreview();
+            mActivity.getProcessingService().updatePreviewBuffer();
+        }catch (NullPointerException e){
+            Log.e(LOGTAG,"error happen: some variable is null "+e.getMessage());
+        }
     }
 
     public void setImageShowSize(int w, int h) {

@@ -1065,18 +1065,30 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.undoButton: {
-                HistoryManager adapter = mMasterImage.getHistory();
-                int position = adapter.undo();
-                mMasterImage.onHistoryItemClick(position);
-                backToMain();
-                invalidateViews();
+                try {
+                    HistoryManager adapter = mMasterImage.getHistory();
+                    int position = adapter.undo();
+                    mMasterImage.onHistoryItemClick(position);
+                    backToMain();
+                    invalidateViews();
+                } catch (NullPointerException e){
+                    Log.e(LOGTAG,"error happen: mMasterImage maybe null when select undoButton");
+                } catch (ArrayIndexOutOfBoundsException e2){
+                    Log.e(LOGTAG,"error happen: click position but OutOfBounds when select undoButton");
+                }
                 return true;
             }
             case R.id.redoButton: {
-                HistoryManager adapter = mMasterImage.getHistory();
-                int position = adapter.redo();
-                mMasterImage.onHistoryItemClick(position);
-                invalidateViews();
+                try {
+                    HistoryManager adapter = mMasterImage.getHistory();
+                    int position = adapter.redo();
+                    mMasterImage.onHistoryItemClick(position);
+                    invalidateViews();
+                } catch (NullPointerException e){
+                    Log.e(LOGTAG,"error happen: mMasterImage maybe null when select redoButton");
+                } catch (ArrayIndexOutOfBoundsException e2){
+                    Log.e(LOGTAG,"error happen: click position but OutOfBounds when select redoButton");
+                }
                 return true;
             }
             case R.id.resetHistoryButton: {
@@ -1319,6 +1331,9 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
     }
 
     void resetHistory() {
+        if(null == mMasterImage){
+            return;
+        }
         HistoryManager adapter = mMasterImage.getHistory();
         adapter.reset();
         HistoryItem historyItem = adapter.getItem(0);
@@ -1338,8 +1353,14 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
     }
 
     public void showDefaultImageView() {
-        mEditorPlaceHolder.hide();
-        mImageShow.setVisibility(View.VISIBLE);
+        try {
+            mEditorPlaceHolder.hide();
+        }catch (NullPointerException e){
+            Log.e(LOGTAG,"error happen: is null in mEditorPlaceHolder.hide");
+        }
+        if(null != mImageShow){
+            mImageShow.setVisibility(View.VISIBLE);
+        }
         MasterImage.getImage().setCurrentFilter(null);
         MasterImage.getImage().setCurrentFilterRepresentation(null);
     }

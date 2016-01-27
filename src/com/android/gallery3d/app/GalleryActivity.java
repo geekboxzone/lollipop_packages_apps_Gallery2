@@ -288,9 +288,17 @@ public final class GalleryActivity extends AbstractGalleryActivity implements On
 	         ((GLRootView)root).setFocusable(false);
 	     }
             return flag||super.onKeyDown(keyCode, event);
-        } finally {    
+        } catch (AssertionError error){
+            android.util.Log.e(TAG,"error happen: onkey down but AssertionError");
+            try{
+                android.os.Process.killProcess(android.os.Process.myPid());
+            } catch (Exception e){
+                android.util.Log.e(TAG,"error happen: kill process error");
+            }
+        } finally {
             root.unlockRenderThread();
        }
+        return false;
     }
     // $_rbox_$_modify_$_end
 

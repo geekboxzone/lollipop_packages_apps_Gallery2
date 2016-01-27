@@ -234,6 +234,10 @@ public class TileImageView extends GLView {
   			}
   			mUri = uri;
   			String str = uri != null ? uri.toString():null;
+            if(null == mimeType){
+                android.util.Log.e(TAG,"error happen: the mimeType is null");
+                return;
+            }
   			boolean isGif = mimeType.toLowerCase().endsWith("gif");
 //  			if(!isGif && isChangeFilmMode){
 //  				return;

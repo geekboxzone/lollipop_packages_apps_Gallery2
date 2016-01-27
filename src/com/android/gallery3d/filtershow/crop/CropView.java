@@ -147,8 +147,11 @@ public class CropView extends View {
 	// $_rbox_$_modify_$_chengmingchuan_$_20140225_$_[Info: Handle Keycode]
     // $_rbox_$_modify_$_begin
     private boolean onKeycodeMove(int dx, int dy){
-
-        mMovingBlock = mCropObj.selectEdge(CropObject.MOVE_BLOCK);
+        try {
+            mMovingBlock = mCropObj.selectEdge(CropObject.MOVE_BLOCK);
+        } catch (NullPointerException e){
+            return false;
+        }
 		mState = Mode.MOVE;
 		mMovingBlock = false;
 		boolean flag = mCropObj.moveCurrentSelection(dx, dy);

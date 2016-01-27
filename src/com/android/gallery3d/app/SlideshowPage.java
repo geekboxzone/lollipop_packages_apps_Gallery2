@@ -187,7 +187,11 @@ public class SlideshowPage extends ActivityState {
         mModel.resume();
 
         if (mPendingSlide != null) {
-            showPendingBitmap();
+            try {
+                showPendingBitmap();
+            }catch (Exception e){
+                System.out.println("========slideshowPage onresume=======");
+            }
         } else {
             loadNextBitmap();
         }

@@ -361,6 +361,9 @@ public class CachingPipeline implements PipelineInterface {
                 if (request.getType() == RenderingRequest.ICON_RENDERING) {
                     Rect iconBounds = request.getIconBounds();
                     Bitmap source = MasterImage.getImage().getThumbnailBitmap();
+                    if(null == source){
+                        return;
+                    }
                     if (iconBounds.width() > source.getWidth() * 2) {
                         source = MasterImage.getImage().getLargeThumbnailBitmap();
                     }
